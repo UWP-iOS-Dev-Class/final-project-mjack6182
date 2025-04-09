@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8C6442DA57439001F8563 /* MusicKit.framework */; };
+		04F8C6512DA59EF5001F8563 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */; };
+		04F8C6532DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */; };
+		04F8C6552DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		04F8C6572DA59EF5001F8563 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */; };
+		04F8C6592DA59EF5001F8563 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */; };
+		04F8C65B2DA59F28001F8563 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C65A2DA59F28001F8563 /* FirebaseAuth */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		04F8C6162DA4DAEB001F8563 /* MusicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F8C6442DA57439001F8563 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +34,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F8C6512DA59EF5001F8563 /* FirebaseAnalytics in Frameworks */,
+				04F8C6532DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */,
+				04F8C6572DA59EF5001F8563 /* FirebaseAppCheck in Frameworks */,
+				04F8C6552DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				04F8C65B2DA59F28001F8563 /* FirebaseAuth in Frameworks */,
+				04F8C6592DA59EF5001F8563 /* FirebaseAppDistribution-Beta in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				04F8C6182DA4DAEB001F8563 /* MusicApp */,
+				04F8C6432DA57439001F8563 /* Frameworks */,
 				04F8C6172DA4DAEB001F8563 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +62,14 @@
 				04F8C6162DA4DAEB001F8563 /* MusicApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		04F8C6432DA57439001F8563 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04F8C6442DA57439001F8563 /* MusicKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +92,12 @@
 			);
 			name = MusicApp;
 			packageProductDependencies = (
+				04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */,
+				04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */,
+				04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */,
+				04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */,
+				04F8C65A2DA59F28001F8563 /* FirebaseAuth */,
 			);
 			productName = MusicApp;
 			productReference = 04F8C6162DA4DAEB001F8563 /* MusicApp.app */;
@@ -94,6 +127,9 @@
 			);
 			mainGroup = 04F8C60D2DA4DAEB001F8563;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04F8C6172DA4DAEB001F8563 /* Products */;
 			projectDirPath = "";
@@ -324,6 +360,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAppDistribution-Beta";
+		};
+		04F8C65A2DA59F28001F8563 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04F8C60E2DA4DAEB001F8563 /* Project object */;
 }

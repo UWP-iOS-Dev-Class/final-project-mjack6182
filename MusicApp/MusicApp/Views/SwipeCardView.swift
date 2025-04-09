@@ -15,45 +15,47 @@ struct SwipeCardView: View {
     @State private var offset: CGSize = .zero
     
     var body: some View {
-        VStack {
-            // Replace with an asynchronous image loader if needed.
-            Rectangle()
-                .fill(Color.gray.opacity(0.3))
-                .frame(width: 250, height: 250)
-                .cornerRadius(10)
-                .overlay(
-                    Text("Artwork")
-                        .foregroundColor(.white)
-                )
-            Text(song.title)
-                .font(.headline)
-                .padding(.top, 10)
-            Text(song.artist)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-        }
-        .frame(width: 300, height: 400)
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 10)
-        .offset(x: offset.width, y: 0)
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    offset = gesture.translation
-                }
-                .onEnded { _ in
-                    if offset.width < -100 {
-                        // Swipe left → Add to playlist.
-                        onSwipeLeft()
-                    } else if offset.width > 100 {
-                        // Swipe right → Skip song.
-                        onSwipeRight()
+        ZStack {
+            VStack {
+                // Replace with an asynchronous image loader if needed.
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 250, height: 250)
+                    .cornerRadius(10)
+                    .overlay(
+                        Text("Artwork")
+                            .foregroundColor(.white)
+                    )
+                Text(song.title)
+                    .font(.headline)
+                    .padding(.top, 10)
+                Text(song.artist)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .frame(width: 300, height: 400)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(radius: 10)
+            .offset(x: offset.width, y: 0)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        offset = gesture.translation
                     }
-                    offset = .zero
-                }
-        )
-        .animation(.spring(), value: offset)
+                    .onEnded { _ in
+                        if offset.width < -100 {
+                            // Swipe left → Add to playlist.
+                            onSwipeLeft()
+                        } else if offset.width > 100 {
+                            // Swipe right → Skip song.
+                            onSwipeRight()
+                        }
+                        offset = .zero
+                    }
+            )
+            .animation(.spring(), value: offset)
+        }
     }
 }
 

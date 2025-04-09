@@ -6,12 +6,33 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseCore
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
+}
 
 @main
 struct MusicAppApp: App {
+    @StateObject var authVM = AuthViewModel()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if authVM.user == nil {
+                            // If there is no user logged in, show the onboarding flow.
+                            OnboardingView()
+                                .environmentObject(authVM)
+                        } else {
+                            // Replace ContentView() with your main app view once the user is logged in.
+                            ContentView()
+                                .environmentObject(authVM)
+                        }
         }
     }
 }
