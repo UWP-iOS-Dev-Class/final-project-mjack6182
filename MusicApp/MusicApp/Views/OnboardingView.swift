@@ -9,61 +9,83 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var currentPage = 0
+    @State private var showLogin = false
     @EnvironmentObject var authVM: AuthViewModel
     
     var body: some View {
-        VStack {
-            TabView(selection: $currentPage) {
-                OnboardingPage(imageName: "Logo",
-                               title: "Welcome to MusicApp",
-                               subtitle: "Discover new music and build your playlists.")
-                .tag(0)
-                
-                OnboardingPage(imageName: "onboarding2",
-                               title: "Personalized Recommendations",
-                               subtitle: "Get song suggestions based on your taste.")
-                .tag(1)
-                
-                OnboardingPage(imageName: "onboarding3",
-                               title: "Easy Playlist Creation",
-                               subtitle: "Build your own playlists with a simple swipe!")
-                .tag(2)
-            }
-            .tabViewStyle(PageTabViewStyle())
-            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-            .padding()
+        ZStack {
+            // Background gradient
+            LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.8), Color.blue.opacity(0.8)]),
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .ignoresSafeArea()
             
-            Button(action: {
-                Task {
-                    await signInUser()
+            VStack {
+                TabView(selection: $currentPage) {
+                    OnboardingPage(imageName: "Logo",
+                                   title: "Welcome to MusicApp",
+                                   subtitle: "Discover new music and build your playlists.")
+                    .tag(0)
+                    
+                    OnboardingPage(imageName: "onboarding2",
+                                   title: "Personalized Recommendations",
+                                   subtitle: "Get song suggestions based on your taste.")
+                    .tag(1)
+                    
+                    OnboardingPage(imageName: "onboarding3",
+                                   title: "Easy Playlist Creation",
+                                   subtitle: "Build your own playlists with a simple swipe!")
+                    .tag(2)
                 }
-            }, label: {
-                if authVM.isLoading {
-                    ProgressView()
-                        .padding()
-                } else {
-                    Text("Sign in with AppleID")
+                .tabViewStyle(PageTabViewStyle())
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                .padding()
+                
+                Button(action: {
+                    if currentPage < 2 {
+                        // Move to next onboarding page if not at the end
+                        withAnimation {
+                            currentPage += 1
+                        }
+                    } else {
+                        // Show login screen when onboarding is done
+                        showLogin = true
+                    }
+                }) {
+                    Text(currentPage < 2 ? "Next" : "Get Started")
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.black.opacity(0.8))
+                        .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding(.horizontal)
                 }
-            })
-            .padding(.vertical)
-            
-            if let error = authVM.errorMessage {
-                Text(error)
-                    .foregroundColor(.red)
-                    .padding(.horizontal)
+                .padding(.vertical)
+                
+                if currentPage < 2 {
+                    Button(action: {
+                        // Skip to login
+                        showLogin = true
+                    }) {
+                        Text("Skip")
+                            .foregroundColor(.white)
+                            .underline()
+                    }
+                    .padding(.bottom)
+                }
+                
+                if let error = authVM.errorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                        .padding(.horizontal)
+                }
             }
         }
-    }
-    
-    private func signInUser() async {
-        authVM.signInWithApple()
+        .fullScreenCover(isPresented: $showLogin) {
+            LoginView()
+                .environmentObject(authVM)
+        }
     }
 }
 

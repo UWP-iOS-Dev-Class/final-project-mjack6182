@@ -24,15 +24,16 @@ struct MusicAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if authVM.user == nil {
-                            // If there is no user logged in, show the onboarding flow.
-                            OnboardingView()
-                                .environmentObject(authVM)
-                        } else {
-                            // Replace ContentView() with your main app view once the user is logged in.
-                            ContentView()
-                                .environmentObject(authVM)
-                        }
+//            if authVM.user == nil {
+//                // If there is no user logged in, show the onboarding flow.
+//                OnboardingView()
+//                    .environmentObject(authVM)
+//            } else {
+//                // Once the user is logged in, show the main app content.
+//                ContentView()
+//                    .environmentObject(authVM)
+//            }
+            ContentView()
         }
     }
 }

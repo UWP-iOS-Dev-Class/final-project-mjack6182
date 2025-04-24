@@ -18,7 +18,71 @@ class AuthViewModel: NSObject, ObservableObject, ASAuthorizationControllerDelega
     override init() {
         self.user = Auth.auth().currentUser
         super.init()
+        
+        // Add a listener for auth state changes
+        Auth.auth().addStateDidChangeListener { [weak self] _, user in
+            DispatchQueue.main.async {
+                self?.user = user
+            }
+        }
     }
+    
+    // MARK: - Email/Password Authentication
+    
+    func signUp(email: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+        isLoading = true
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                if let error = error {
+                    let errorMessage = self?.handleAuthError(error)
+                    completion(false, errorMessage)
+                } else {
+                    self?.user = authResult?.user
+                    completion(true, nil)
+                }
+            }
+        }
+    }
+    
+    func signIn(email: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+        isLoading = true
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                if let error = error {
+                    let errorMessage = self?.handleAuthError(error)
+                    completion(false, errorMessage)
+                } else {
+                    self?.user = authResult?.user
+                    completion(true, nil)
+                }
+            }
+        }
+    }
+    
+    // Helper method to handle various Firebase Auth errors
+    private func handleAuthError(_ error: Error) -> String {
+        let errorCode = (error as NSError).code
+        switch errorCode {
+        case AuthErrorCode.wrongPassword.rawValue:
+            return "Invalid password. Please try again."
+        case AuthErrorCode.invalidEmail.rawValue:
+            return "Invalid email format."
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            return "Email already in use."
+        case AuthErrorCode.weakPassword.rawValue:
+            return "Password is too weak. It must be at least 6 characters."
+        case AuthErrorCode.userNotFound.rawValue:
+            return "User not found. Please check your email or sign up."
+        case AuthErrorCode.networkError.rawValue:
+            return "Network error. Please try again later."
+        default:
+            return error.localizedDescription
+        }
+    }
+    
+    // MARK: - Anonymous Authentication
     
     /// Sign in the user anonymously. Replace or extend this for different sign-in methods.
     func signInAnonymously() {
@@ -34,6 +98,8 @@ class AuthViewModel: NSObject, ObservableObject, ASAuthorizationControllerDelega
             }
         }
     }
+    
+    // MARK: - Apple Authentication
     
     func signInWithApple() {
         let nonce = randomNonceString()
@@ -90,6 +156,8 @@ class AuthViewModel: NSObject, ObservableObject, ASAuthorizationControllerDelega
         return UIWindow()
     }
     
+    // MARK: - Sign Out
+    
     func signOut() {
         do {
             try Auth.auth().signOut()
@@ -98,6 +166,8 @@ class AuthViewModel: NSObject, ObservableObject, ASAuthorizationControllerDelega
             errorMessage = error.localizedDescription
         }
     }
+    
+    // MARK: - Helper Methods
     
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)

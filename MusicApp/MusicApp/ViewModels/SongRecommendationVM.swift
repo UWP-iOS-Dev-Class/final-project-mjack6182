@@ -11,6 +11,8 @@ import Combine
 class SongRecommendationViewModel: ObservableObject {
     // The list of recommended songs
     @Published var songs: [Song] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
     
     // The criteria for recommendations
     var playlistType: PlaylistType
@@ -19,19 +21,54 @@ class SongRecommendationViewModel: ObservableObject {
     init(playlistType: PlaylistType, playlistName: String) {
         self.playlistType = playlistType
         self.playlistName = playlistName
-        fetchSongs()
+        Task {
+            await fetchSongs()
+        }
     }
     
-    // Fetch recommended songs based on the selected playlist type (and maybe playlistName)
-    func fetchSongs() {
-        // Replace with your actual music fetching logic.
-        // Here we add some mock songs for demonstration purposes.
-        self.songs = [
-            Song(id: "1", title: "Song One", artist: "Artist A", artworkURL: ""),
-            Song(id: "2", title: "Song Two", artist: "Artist B", artworkURL: ""),
-            Song(id: "3", title: "Song Three", artist: "Artist C", artworkURL: "")
-        ]
+    // Fetch recommended songs based on the selected playlist type
+    @MainActor
+    func fetchSongs() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            // Map the playlist type to appropriate search terms for the API
+            let searchTerm: String
+            switch playlistType {
+            case .chill:
+                searchTerm = "chill lofi"
+            case .workout:
+                searchTerm = "workout gym"
+            case .party:
+                searchTerm = "party dance"
+            case .focus:
+                searchTerm = "focus concentration"
+            }
+            
+            // Use our API service to fetch songs
+            let fetchedSongs = try await MusicAPIService.shared.getRecommendedSongs(for: searchTerm)
+            self.songs = fetchedSongs
+        } catch let error as APIError {
+            switch error {
+            case .invalidURL:
+                errorMessage = "Invalid URL"
+            case .invalidResponse:
+                errorMessage = "Invalid response from server"
+            case .decodingError(let message):
+                errorMessage = "Error decoding data: \(message)"
+            }
+        } catch {
+            errorMessage = "Unknown error: \(error.localizedDescription)"
+        }
+        
+        isLoading = false
     }
     
-    // Optional: Functionality to handle swipe actions, etc., can be added here.
+    // Remove a song from the recommendation queue
+    func removeSong(_ song: Song) {
+        if let index = songs.firstIndex(where: { $0.id == song.id }) {
+            songs.remove(at: index)
+        }
+    }
 }

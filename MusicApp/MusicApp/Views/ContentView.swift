@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var playlistName: String = ""
     @State private var selectedTab = 0
     @State private var myPlaylists: [Playlist] = []
+    @EnvironmentObject var authVM: AuthViewModel
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -107,16 +108,78 @@ struct ContentView: View {
             
             // Account Tab
             NavigationView {
-                VStack(spacing: 20) {
-                    Text("Account")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
+                ZStack {
+                    // Background gradient
+                    LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.6), Color.blue.opacity(0.6)]),
+                                   startPoint: .topLeading,
+                                   endPoint: .bottomTrailing)
+                        .ignoresSafeArea()
+                    
+                    VStack(spacing: 20) {
+                        // User profile section
+                        VStack(spacing: 10) {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.white)
+                                .padding(.top, 20)
+                            
+                            if let user = authVM.user {
+                                Text(user.email ?? "No email")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                
+                                Text("User ID: \(user.uid.prefix(8))...")
+                                    .font(.caption)
+                                    .foregroundColor(.white.opacity(0.8))
+                            }
+                        }
                         .padding()
-                    Text("User account details go here")
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        
+                        // Account options
+                        VStack(spacing: 15) {
+                            AccountOptionButton(title: "Edit Profile", iconName: "person.fill") {
+                                // Edit profile action would go here
+                            }
+                            
+                            AccountOptionButton(title: "Settings", iconName: "gear") {
+                                // Settings action would go here
+                            }
+                            
+                            AccountOptionButton(title: "Help & Support", iconName: "questionmark.circle") {
+                                // Help action would go here
+                            }
+                        }
                         .padding()
-                    Spacer()
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                        
+                        Spacer()
+                        
+                        // Sign out button
+                        Button(action: {
+                            authVM.signOut()
+                        }) {
+                            Text("Sign Out")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.red.opacity(0.8))
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                        }
+                        .padding(.bottom, 30)
+                    }
+                    .padding(.top, 20)
                 }
                 .navigationTitle("Account")
+                .navigationBarTitleDisplayMode(.large)
             }
             .tabItem {
                 Image(systemName: "person.crop.circle")
@@ -124,6 +187,32 @@ struct ContentView: View {
             }
             .tag(2)
         }
+    }
+}
+
+// Account option button
+struct AccountOptionButton: View {
+    var title: String
+    var iconName: String
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: iconName)
+                    .frame(width: 30)
+                Text(title)
+                    .font(.headline)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .padding(.horizontal)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -167,5 +256,6 @@ struct PlaylistCreationWrapperView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AuthViewModel())
     }
 }
