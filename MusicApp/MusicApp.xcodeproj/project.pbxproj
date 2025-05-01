@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04C1369F2DC2D0AC006185E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 04C1369E2DC2D0AC006185E9 /* FirebaseFirestore */; };
 		04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8C6442DA57439001F8563 /* MusicKit.framework */; };
 		04F8C6512DA59EF5001F8563 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */; };
 		04F8C6532DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -39,6 +40,7 @@
 				04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */,
 				04F8C6572DA59EF5001F8563 /* FirebaseAppCheck in Frameworks */,
 				04F8C6552DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				04C1369F2DC2D0AC006185E9 /* FirebaseFirestore in Frameworks */,
 				04F8C65B2DA59F28001F8563 /* FirebaseAuth in Frameworks */,
 				04F8C6592DA59EF5001F8563 /* FirebaseAppDistribution-Beta in Frameworks */,
 			);
@@ -98,6 +100,7 @@
 				04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */,
 				04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */,
 				04F8C65A2DA59F28001F8563 /* FirebaseAuth */,
+				04C1369E2DC2D0AC006185E9 /* FirebaseFirestore */,
 			);
 			productName = MusicApp;
 			productReference = 04F8C6162DA4DAEB001F8563 /* MusicApp.app */;
@@ -373,6 +376,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		04C1369E2DC2D0AC006185E9 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
 		04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

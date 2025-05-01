@@ -9,31 +9,32 @@ import SwiftUI
 import Firebase
 import FirebaseCore
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    return true
-  }
-}
+import FirebaseAppCheck
 
-@main
-struct MusicAppApp: App {
-    @StateObject var authVM = AuthViewModel()
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
+        
+#if DEBUG
+        let providerFactory = AppCheckDebugProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
+#endif
+        
+        return true
+    }
     
-    var body: some Scene {
-        WindowGroup {
-//            if authVM.user == nil {
-//                // If there is no user logged in, show the onboarding flow.
-//                OnboardingView()
-//                    .environmentObject(authVM)
-//            } else {
-//                // Once the user is logged in, show the main app content.
-//                ContentView()
-//                    .environmentObject(authVM)
-//            }
-            ContentView()
+    @main
+    struct MusicAppApp: App {
+        @StateObject var authVM = AuthViewModel()
+        @StateObject var playlistVM = PlaylistBuilderViewModel()
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+        
+        var body: some Scene {
+            WindowGroup {
+                    ContentView()
+                }
+            }
         }
     }
-}

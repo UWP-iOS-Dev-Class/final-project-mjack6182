@@ -48,6 +48,7 @@ class MusicAPIService {
         // For now, we'll use the search API with the genre as the search term
         return try await searchSongs(for: genre, limit: limit)
     }
+
 }
 
 // Response models for the iTunes API
@@ -89,4 +90,5 @@ enum APIError: Error {
     case invalidURL
     case invalidResponse
     case decodingError(String)
-} 
+}
+

@@ -14,5 +14,9 @@ enum PlaylistType: String, CaseIterable, Identifiable, Codable {
     case workout = "Workout"
     case focus = "Focus"
     case party = "Party"
-    // Add additional playlist types as needed.
-}
+    case hipHop = "HipHop"
+    case rap = "Rap"
+    case pop = "Pop"
+    case rock = "Rock"
+    case emoRap = "Emo Rap"
+    }

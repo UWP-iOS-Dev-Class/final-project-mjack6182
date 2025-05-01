@@ -44,6 +44,16 @@ class SongRecommendationViewModel: ObservableObject {
                 searchTerm = "party dance"
             case .focus:
                 searchTerm = "focus concentration"
+            case .hipHop:
+                searchTerm = "hip hop"
+            case .rap:
+                searchTerm = "rap"
+            case .rock:
+                searchTerm = "rock"
+            case .pop:
+                searchTerm = "pop"
+            case .emoRap:
+                searchTerm = "emo rap"
             }
             
             // Use our API service to fetch songs

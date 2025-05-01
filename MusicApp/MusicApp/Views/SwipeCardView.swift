@@ -60,7 +60,19 @@ struct SwipeCardView: View {
             }
             .padding()
             .frame(width: 300, height: 400)
-            .background(Color.white)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(
+                                offset.width < -20 ? Color.green.opacity(Double(-offset.width) / 200) : 
+                                offset.width > 20 ? Color.red.opacity(Double(offset.width) / 200) : 
+                                Color.clear,
+                                lineWidth: 3
+                            )
+                    )
+            )
             .cornerRadius(20)
             .shadow(radius: 10)
             .offset(x: offset.width, y: 0)
@@ -74,10 +86,10 @@ struct SwipeCardView: View {
                     }
                     .onEnded { _ in
                         if offset.width < -100 {
-                            // Swipe left → Add to playlist.
+                            // Swipe left → Add to playlist
                             onSwipeLeft()
                         } else if offset.width > 100 {
-                            // Swipe right → Skip song.
+                            // Swipe right → Skip song
                             onSwipeRight()
                         } else {
                             // Reset if not swiped far enough
@@ -91,19 +103,33 @@ struct SwipeCardView: View {
             
             // Add swipe direction indicators
             HStack {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.green)
-                    .opacity(offset.width < -20 ? Double(-offset.width) / 100 : 0)
-                    .font(.system(size: 100))
-                    .padding(.leading, 40)
+                VStack {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.green)
+                        .opacity(offset.width < -20 ? Double(-offset.width) / 100 : 0)
+                        .font(.system(size: 80))
+                    
+                    Text("Add to Playlist")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                        .opacity(offset.width < -20 ? Double(-offset.width) / 100 : 0)
+                }
+                .padding(.leading, 30)
                 
                 Spacer()
                 
-                Image(systemName: "x.circle.fill")
-                    .foregroundColor(.red)
-                    .opacity(offset.width > 20 ? Double(offset.width) / 100 : 0)
-                    .font(.system(size: 100))
-                    .padding(.trailing, 40)
+                VStack {
+                    Image(systemName: "x.circle.fill")
+                        .foregroundColor(.red)
+                        .opacity(offset.width > 20 ? Double(offset.width) / 100 : 0)
+                        .font(.system(size: 80))
+                    
+                    Text("Skip")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .opacity(offset.width > 20 ? Double(offset.width) / 100 : 0)
+                }
+                .padding(.trailing, 30)
             }
         }
     }

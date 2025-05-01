@@ -83,8 +83,6 @@ struct OnboardingView: View {
             }
         }
         .fullScreenCover(isPresented: $showLogin) {
-            LoginView()
-                .environmentObject(authVM)
         }
     }
 }
