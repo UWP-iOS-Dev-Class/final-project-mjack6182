@@ -8,12 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		04C1369F2DC2D0AC006185E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 04C1369E2DC2D0AC006185E9 /* FirebaseFirestore */; };
-		04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8C6442DA57439001F8563 /* MusicKit.framework */; };
+		04D6EB112DCB101B00B19D1E /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 04D6EB102DCB101B00B19D1E /* FirebaseAppCheck */; };
 		04F8C6512DA59EF5001F8563 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */; };
-		04F8C6532DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */; };
-		04F8C6552DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		04F8C6572DA59EF5001F8563 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */; };
-		04F8C6592DA59EF5001F8563 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */; };
 		04F8C65B2DA59F28001F8563 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8C65A2DA59F28001F8563 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
@@ -35,14 +31,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D6EB112DCB101B00B19D1E /* FirebaseAppCheck in Frameworks */,
 				04F8C6512DA59EF5001F8563 /* FirebaseAnalytics in Frameworks */,
-				04F8C6532DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
-				04F8C6452DA57439001F8563 /* MusicKit.framework in Frameworks */,
-				04F8C6572DA59EF5001F8563 /* FirebaseAppCheck in Frameworks */,
-				04F8C6552DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				04C1369F2DC2D0AC006185E9 /* FirebaseFirestore in Frameworks */,
 				04F8C65B2DA59F28001F8563 /* FirebaseAuth in Frameworks */,
-				04F8C6592DA59EF5001F8563 /* FirebaseAppDistribution-Beta in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,12 +87,9 @@
 			name = MusicApp;
 			packageProductDependencies = (
 				04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */,
-				04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */,
-				04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */,
-				04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */,
 				04F8C65A2DA59F28001F8563 /* FirebaseAuth */,
 				04C1369E2DC2D0AC006185E9 /* FirebaseFirestore */,
+				04D6EB102DCB101B00B19D1E /* FirebaseAppCheck */,
 			);
 			productName = MusicApp;
 			productReference = 04F8C6162DA4DAEB001F8563 /* MusicApp.app */;
@@ -300,6 +289,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -328,6 +318,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,30 +372,15 @@
 			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		04F8C6522DA59EF5001F8563 /* FirebaseAnalyticsOnDeviceConversion */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsOnDeviceConversion;
-		};
-		04F8C6542DA59EF5001F8563 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		04F8C6562DA59EF5001F8563 /* FirebaseAppCheck */ = {
+		04D6EB102DCB101B00B19D1E /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
 		};
-		04F8C6582DA59EF5001F8563 /* FirebaseAppDistribution-Beta */ = {
+		04F8C6502DA59EF5001F8563 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04F8C64F2DA59EF5001F8563 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseAppDistribution-Beta";
+			productName = FirebaseAnalytics;
 		};
 		04F8C65A2DA59F28001F8563 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,78 +1,80 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    
     @State private var email = ""
     @State private var password = ""
-    @State private var showingAlert = false
-    
+    @ObservedObject var viewModel: AuthViewModel
+
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                Text("Welcome Back")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                TextField("Email", text: $email)
-                    .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                if let errorMessage = authViewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .font(.caption)
-                }
-                
-                Button(action: login) {
-                    Text("Sign In")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .padding(.top)
-                
-                NavigationLink(destination: RegisterView()) {
-                    Text("Don't have an account? Sign Up")
-                        .foregroundColor(.blue)
-                }
-                .padding(.top)
-                
-                Spacer()
-            }
-            .padding()
-            .navigationTitle("Login")
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Login Failed"),
-                      message: Text(authViewModel.errorMessage ?? "Unknown error"),
-                      dismissButton: .default(Text("OK")))
-            }
-        }
-    }
-    
-    private func login() {
-        guard !email.isEmpty, !password.isEmpty else {
-            authViewModel.errorMessage = "Please fill in all fields."
-            showingAlert = true
-            return
-        }
-        
-        authViewModel.signIn(email: email, password: password) { success in
-            if !success {
-                showingAlert = true
-            }
-        }
-    }
-}
+            ZStack {
+                // Background gradient (same as Onboarding)
+                LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.8), Color.blue.opacity(0.8)]),
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                    .ignoresSafeArea()
 
-#Preview {
-    LoginView()
-        .environmentObject(AuthViewModel())
+                VStack(spacing: 20) {
+                    // App Logo
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(.top)
+
+                    // Title
+                    Text("Welcome Back")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+
+                    // Email Field
+                    TextField("Email", text: $email)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(10)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
+                        .padding(.horizontal)
+
+                    // Password Field
+                    SecureField("Password", text: $password)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+
+                    // Error Message
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding(.horizontal)
+                    }
+
+                    // Login Button or ProgressView
+                    if viewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        Button(action: {
+                            viewModel.login(email: email, password: password)
+                        }) {
+                            Text("Login")
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                        }
+                    }
+
+                    Spacer()
+                }
+                .padding()
+            }
+            .navigationBarHidden(true)
+        }
+    }
 }

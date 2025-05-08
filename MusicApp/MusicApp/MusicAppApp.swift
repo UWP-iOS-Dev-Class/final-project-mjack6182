@@ -8,33 +8,30 @@
 import SwiftUI
 import Firebase
 import FirebaseCore
-
 import FirebaseAppCheck
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        FirebaseApp.configure()
-        
-#if DEBUG
-        let providerFactory = AppCheckDebugProviderFactory()
-        AppCheck.setAppCheckProviderFactory(providerFactory)
-#endif
-        
-        return true
-    }
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+   
+    FirebaseApp.configure()
     
+  
+    AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
+      
+    return true
+  }
+}
     @main
     struct MusicAppApp: App {
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         @StateObject var authVM = AuthViewModel()
         @StateObject var playlistVM = PlaylistBuilderViewModel()
-        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         
         var body: some Scene {
             WindowGroup {
-                    ContentView()
+                    MainAppView()
+                        .environmentObject(authVM)
                 }
             }
         }
-    }

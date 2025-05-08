@@ -83,13 +83,13 @@ struct RegisterView: View {
             return
         }
         
-        authViewModel.signUp(firstName: firstName,
-                             lastName: lastName,
-                             email: email,
-                             password: password) { success in
-            if !success {
-                showingAlert = true
-            }
-        }
+//        authViewModel.signUp(firstName: firstName,
+//                             lastName: lastName,
+//                             email: email,
+//                             password: password) { success in
+//            if !success {
+//                showingAlert = true
+//            }
+//        }
     }
 }

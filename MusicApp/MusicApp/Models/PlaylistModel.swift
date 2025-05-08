@@ -8,15 +8,15 @@
 import Foundation
 
 class Playlist: Identifiable, ObservableObject, Codable {
-    let id: UUID
+    var id = UUID()
     var name: String
     var type: PlaylistType
-    @Published var songs: [Song] = []
+    @Published var songs: [Song]
     
     init(name: String, type: PlaylistType) {
-        self.id = UUID()
         self.name = name
         self.type = type
+        self.songs = []
     }
     
     // Codable conformance

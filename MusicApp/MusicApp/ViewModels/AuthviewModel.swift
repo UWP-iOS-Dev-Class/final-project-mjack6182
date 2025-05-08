@@ -8,90 +8,69 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import SwiftUI
 
 class AuthViewModel: ObservableObject {
-  // Properties for tracking the current user and login state
-  @Published var user: FirebaseAuth.User?
-  @Published var isLoggedIn: Bool = false
-  @Published var errorMessage: String?
-  
-  private let auth = Auth.auth()
-  private let db = Firestore.firestore()
-  
-  init() {
-    // Set current user if already logged in
-    self.user = auth.currentUser
-    self.isLoggedIn = auth.currentUser != nil
-  }
-  
-  // Sign Up
-  func signUp(firstName: String,
-              lastName: String,
-              email: String,
-              password: String,
-              completion: @escaping (Bool) -> Void) {
-    auth.createUser(withEmail: email, password: password) { [weak self] result, error in
-      guard let self = self else { return }
-      if let error = error {
-        self.errorMessage = error.localizedDescription
-        completion(false)
-        return
-      }
-      guard let user = result?.user else {
-        self.errorMessage = "User creation failed"
-        completion(false)
-        return
-      }
-      
-      // Create a Firestore document for the new user.
-      let userData: [String: Any] = [
-        "id": user.uid,
-        "firstName": firstName,
-        "lastName": lastName,
-        "email": email,
-      ]
-      
-      self.db.collection("users").document(user.uid).setData(userData) { err in
-        if let err = err {
-          self.errorMessage = err.localizedDescription
-          completion(false)
-        } else {
-          self.user = user
-          self.isLoggedIn = true
-          completion(true)
+    @Published var userSession: FirebaseAuth.User? = nil
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+
+    private var db = FirebaseManager.shared.firestore
+    private var auth = FirebaseManager.shared.auth
+    
+    init() {
+        listenToAuthState()
+    }
+    
+    func listenToAuthState() {
+        auth.addStateDidChangeListener { [weak self] _, user in
+            self?.userSession = user
+            if let user = user {
+                print("User is logged in: \(user.uid)")
+                self?.fetchUserData(uid: user.uid)
+            } else {
+                print("User is not logged in.")
+            }
         }
-      }
     }
-  }
-  
-  // Sign In
-  func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
-    auth.signIn(withEmail: email, password: password) { [weak self] result, error in
-      guard let self = self else { return }
-      if let error = error {
-        self.errorMessage = error.localizedDescription
-        completion(false)
-        return
-      }
-      guard let user = result?.user else {
-        self.errorMessage = "Sign in failed"
-        completion(false)
-        return
-      }
-      self.user = user
-      self.isLoggedIn = true
-      completion(true)
+    
+    func login(email: String, password: String) {
+        isLoading = true
+        errorMessage = nil
+        
+        auth.signIn(withEmail: email, password: password) { [weak self] result, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                if let error = error {
+                    self?.errorMessage = "Login failed: \(error.localizedDescription)"
+                } else {
+                    self?.userSession = result?.user
+                    if let uid = result?.user.uid {
+                        self?.fetchUserData(uid: uid)
+                    }
+                }
+            }
+        }
     }
-  }
-  
-  // Sign Out
-  func signOut() {
-    do {
-      try auth.signOut()
-      self.user = nil
-      self.isLoggedIn = false
-    } catch {
-      self.errorMessage = error.localizedDescription
+    
+    func logout() {
+        do {
+            try auth.signOut()
+            self.userSession = nil
+        } catch {
+            self.errorMessage = "Failed to sign out: \(error.localizedDescription)"
+        }
     }
-  }
+    
+    private func fetchUserData(uid: String) {
+        let docRef = db.collection("users").document(uid)
+        docRef.getDocument { document, error in
+            if let document = document, document.exists {
+                let data = document.data()
+                print("Fetched user data: \(String(describing: data))")
+            } else {
+                print("No user document found for uid: \(uid)")
+            }
+        }
+    }
 }
